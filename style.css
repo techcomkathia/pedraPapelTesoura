@@ -89,3 +89,17 @@ button img {
     background-color: #cefdce;
     color: #689f38
 }
+
+.imagensResultado{
+    display: flex; 
+    flex-direction: row;
+}
+
+.imagensResultado div{
+    min-width: 50%;
+    margin: 5px;
+}
+
+.imagensResultado img{
+    width: 50px;
+}

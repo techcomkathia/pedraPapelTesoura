@@ -1,4 +1,4 @@
-avaliacaoEscolhas = `{
+let avaliacaoEscolhas = `{
     "pedra": {
         "pedra": "empatou",
         "tesoura": "ganhou",
@@ -16,75 +16,73 @@ avaliacaoEscolhas = `{
     }
 }`
 
-let opcoesImages=[
-    {
+let opcoesImages={
+    pedra:{
         nome:"pedra",
         img: "img/pedra.png"
     },
-    {
+    papel:{
         nome:"papel",
         img: "img/papel.png"
     },
-    {
+    tesoura:{
         nome:"tesoura",
         img: "img/tesoura.png"
     }
 
-]
+}
 
 
-let opcoesObjeto = JSON.parse(avaliacaoEscolhas)
-
-let escolhaComputador = document.getElementById("escolhaComputador")
-let escolhaUsuario = document.getElementById("escolhaUsuario")
-let resultado = document.getElementById("resultado")
+// variáveis dos objtetos do html que mostram o placar
 let contPontosCompt =  document.getElementById("pontosComputador")
 let contPontosUser =  document.getElementById("pontosUsuario")
+//mostram resultado
+let resultado = document.querySelector("#resultado")
+let escolhaComputador = document.getElementById("escolhaComputador")
+let escolhaUsuario = document.getElementById("escolhaUsuario")
 
-let pontuacaoComputador = 0
-let pontuacaoUsuario = 0 
+let pontosComput = 0
+let pontosUser = 0
 
-function verificar(input) {
-    let opcoes = opcoesImages
+//conversão de JSON para objeto
+avaliacaoEscolhas = JSON.parse(avaliacaoEscolhas)
+let escolhas = ['pedra', 'papel', 'tesoura']
 
-    let num = Math.floor(Math.random() * 3)
+function verificar(itemUser){
+    let num = Math.floor(Math.random()*3)
+    let itemComputador = escolhas[num]
 
-    let nomeItemComput = opcoes[num].nome
-    let nomeItemUser = input
-    let situacao = opcoesObjeto[nomeItemUser][nomeItemComput]
+    escolhaComputador.innerHTML= `O computador escolheu <strong> ${itemComputador} <\strong>`
 
+    escolhaUsuario.innerHTML= `Você escolheu <strong> ${itemUser}<\strong>`
 
-    escolhaComputador.innerHTML = `O computador escolheu <strong> ${nomeItemComput}  <\strong>`
-    escolhaUsuario.innerHTML = `Você escolheu <strong> ${nomeItemUser}  <\strong>`
-
-    switch (situacao) {
+    switch (avaliacaoEscolhas[itemUser][itemComputador]) {
         case 'ganhou':
+            resultado.innerHTML = 'GANHOU'
             resultado.classList = 'ganhou'
-            resultado.innerHTML = "GANHOU!"
-            pontuacaoUsuario++
-            break
-
-        case 'perdeu':
-            resultado.classList = 'perdeu'
+            pontosUser += 1
+            contPontosUser.innerHTML = pontosUser
             
-            resultado.innerHTML = "PERDEU!"
-            pontuacaoComputador++
             break;
- 
+    
+        case 'perdeu':
+            resultado.innerHTML = 'PERDEU'
+            resultado.classList = 'perdeu'
+            pontosComput += 1
+            contPontosCompt.innerHTML = pontosComput
+            break;
+    
         default:
-            resultado.classList = 'empatou';
-            resultado.innerHTML = "EMPATOU!"
-            break
+            resultado.innerHTML = 'EMPATOU'
+            resultado.classList = 'empatou'
+            break;
     }
 
-    
+    let imgCompt = document.getElementById('imgComput')
+    let imgUser = document.getElementById('imgUser')
 
-
-    contPontosCompt.innerHTML = pontuacaoComputador
-    contPontosUser.innerHTML = pontuacaoUsuario
-
-    
-
-
-
+    imgCompt.src = opcoesImages[itemComputador].img
+    imgCompt.alt = opcoesImages[itemComputador].nome
+    imgUser.src = opcoesImages[itemUser].img
+    imgUser.alt = opcoesImages[itemUser].nome
 }
